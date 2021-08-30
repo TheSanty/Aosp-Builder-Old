@@ -7,8 +7,8 @@ cd /tmp/rom
 SYNC_START=$(date +"%s")
 
 
-git config --global user.name GeoPD
-git config --global user.email geoemmanuelpd2001@gmail.com
+git config --global user.name "TheSanty"
+git config --global user.email "sudhiryadav.igi@gmail.com"
 
 
 # Git cookies
@@ -26,96 +26,20 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 # Rom repo sync & dt ( Add roms and update case functions )
 rom_one(){
-     repo init --depth=1 --no-repo-verify -u git://github.com/DotOS/manifest.git -b dot11 -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
+     repo init --depth=1 --no-repo-verify -u https://github.com/HyconOS/manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     export SKIP_ABI_CHECKS=true
-     . build/envsetup.sh && lunch dot_sakura-user
+	 git clone https://github.com/Hycon-Devices/device_xiaomi_whyred.git device/xiaomi/whyred
+     git clone https://github.com/Hycon-Devices/device_xiaomi_sdm660-common.git device/xiaomi/sdm660-common
+     git clone https://github.com/fernandobouchet/Whyred.git kernel/xiaomi/sdm660
+     git clone https://github.com/TheSanty/vendor_xiaomi.git vendor/xiaomi
+     . build/envsetup.sh && lunch aosp_whyred-user
 }
 
 rom_two(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/Octavi-OS/platform_manifest.git -b maintainers -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
+     repo init --depth=1 --no-repo-verify -u https://github.com/Corvus-R/android_manifest.git -b 11 -g default,-device,-mips,-darwin,-notdefault
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     export OCTAVI_BUILD_TYPE=Official OCTAVI_DEVICE_MAINTAINER=GeoPD WITH_GAPPS=true
-     . build/envsetup.sh && lunch octavi_sakura-userdebug
-}
-
-rom_three(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/P-404/platform_manifest -b rippa -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     git config --global url.https://source.codeaurora.org.insteadOf git://codeaurora.org
-     curl -L http://source.codeaurora.org/platform/manifest/clone.bundle > /dev/null
-     sed -i 's/source.codeaurora.org/oregon.source.codeaurora.org/g' .repo/manifests/default.xml
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     wget https://raw.githubusercontent.com/geopd/misc/master/gms-vendor.mk && mv gms-vendor.mk vendor/google/gms/gms-vendor.mk
-     sed -i '107 i \\t"ccache":  Allowed,' build/soong/ui/build/paths/config.go
-     sed -i '91s/error/warning/g' system/sepolicy/Android.mk
-     export SELINUX_IGNORE_NEVERALLOWS=true
-     export SKIP_ABI_CHECKS=true
-     source build/envsetup.sh && lunch p404_sakura-user
-}
-
-rom_four(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/ResurrectionRemix/platform_manifest.git -b Q -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     sed -i '79 i \\t"ccache":  Allowed,' build/soong/ui/build/paths/config.go
-     export RR_BUILDTYPE=Official
-     . build/envsetup.sh && lunch rr_sakura-userdebug
-}
-
-rom_five(){
-     repo init --depth=1 --no-repo-verify -u git://github.com/DotOS/manifest.git -b dot11 -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     export SKIP_ABI_CHECKS=true
-     . build/envsetup.sh && lunch dot_sakura-user
-}
-
-rom_six(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/AOSPA/manifest -b ruby -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     git config --global url.https://source.codeaurora.org.insteadOf git://codeaurora.org
-     curl -L http://source.codeaurora.org/platform/manifest/clone.bundle > /dev/null
-     sed -i 's/source.codeaurora.org/oregon.source.codeaurora.org/g' .repo/manifests/default.xml
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     sed -i '104 i \\t"ccache":  Allowed,' build/soong/ui/build/paths/config.go
-     export SKIP_ABI_CHECKS=true
-     . build/envsetup.sh && lunch pa_sakura-user
-}
-
-rom_seven(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/PotatoProject/manifest -b dumaloo-release
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     sed -i '79 i \\t"ccache":  Allowed,' build/soong/ui/build/paths/config.go
-     export SKIP_ABI_CHECKS=true
-     source build/envsetup.sh && lunch potato_sakura-userdebug
-}
-
-rom_eight(){
-     repo init --depth=1 --no-repo-verify -u https://github.com/Wave-Project/manifest -b r -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     sed -i '78 i \\t"ccache":  Allowed,' build/soong/ui/build/paths/config.go
-     export SKIP_ABI_CHECKS=true
-     source build/envsetup.sh && lunch wave_sakura-user
-}
-
-recovery_one(){
-     repo init --depth=1 --no-repo-verify -u https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0 -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     export ALLOW_MISSING_DEPENDENCIES=true
-     source build/envsetup.sh && lunch omni_daisa-eng
-}
-
-recovery_two(){
-     repo init --depth=1 --no-repo-verify -u https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0 -g default,-device,-mips,-darwin,-notdefault
-     git clone https://${TOKEN}@github.com/geopd/local_manifests -b $rom .repo/local_manifests
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     source build/envsetup.sh && lunch omni_daisy-eng
+     export RAVEN_LAIR=Official
+     . build/envsetup.sh && lunch corvus_whyred-user
 }
 
 
@@ -138,7 +62,7 @@ telegram_build() {
 
 # Branch name & Head commit sha for ease of tracking
 commit_sha() {
-    for repo in device/xiaomi/${T_DEVICE} vendor/xiaomi kernel/xiaomi/msm8953
+    for repo in device/xiaomi/${T_DEVICE} device/xiaomi/sdm660-common vendor/xiaomi kernel/xiaomi/sdm660
     do
 	printf "[$(echo $repo | cut -d'/' -f1 )/$(git -C ./$repo/.git rev-parse --short=10 HEAD)]"
     done
@@ -147,25 +71,9 @@ commit_sha() {
 
 # Function to be chose based on rom flag in .yml
 case "${rom}" in
- "dotOS") rom_one
+ "HyconOS") rom_one
     ;;
- "OctaviOS") rom_two
-    ;;
- "P404") rom_three
-    ;;
- "RR") rom_four
-    ;;
- "dotOS-TEST") rom_five
-    ;;
- "AOSPA") rom_six
-    ;;
- "POSP") rom_seven
-    ;;
- "WaveOS") rom_eight
-    ;;
- "OFOX") recovery_one
-    ;;
- "OFOX2") recovery_two
+ "CorvusOS") rom_two
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -202,25 +110,9 @@ ccache -z
 
 # Build commands for each roms on basis of rom flag in .yml / an additional full build.log is kept.
 case "${rom}" in
- "dotOS") make bacon -j18 2>&1 | tee build.log
+ "HyconOS") mka bacon -j$(nproc --all) 2>&1 | tee build.log
     ;;
- "OctaviOS") mka octavi -j18 2>&1 | tee build.log
-    ;;
- "P404") m p404 -j18 2>&1 | tee build.log
-    ;;
- "RR") mka bacon -j18 2>&1 | tee build.log
-    ;;
- "dotOS-TEST") make bacon -j18 2>&1 | tee build.log
-    ;;
- "AOSPA") m bacon -j10 2>&1 | tee build.log
-    ;;
- "POSP") make potato -j18 2>&1 | tee build.log
-    ;;
- "WaveOS") make bacon -j18 2>&1 | tee build.log
-    ;;
- "OFOX") make recoveryimage -j10 2>&1 | tee build.log
-    ;;
- "OFOX2") make recoveryimage -j10 2>&1 | tee build.log
+ "CorvusOS") make corvus 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1

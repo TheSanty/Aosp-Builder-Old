@@ -1,5 +1,5 @@
 FROM ubuntu:focal
-LABEL maintainer="GeoPD <geoemmanuelpd2001@gmail.com>"
+LABEL maintainer="TheSanty <sudhiryadav.igi@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /tmp
