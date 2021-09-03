@@ -27,11 +27,8 @@ ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 # Rom repo sync & dt ( Add roms and update case functions )
 rom_one(){
      repo init --depth=1 --no-repo-verify -u https://github.com/HyconOS/manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
-     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-	 git clone https://github.com/Hycon-Devices/device_xiaomi_whyred.git device/xiaomi/whyred
-     git clone https://github.com/Hycon-Devices/device_xiaomi_sdm660-common.git device/xiaomi/sdm660-common
-     git clone https://github.com/fernandobouchet/Whyred.git kernel/xiaomi/sdm660
-     git clone https://github.com/TheSanty/vendor_xiaomi.git vendor/xiaomi
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+	 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
      . build/envsetup.sh && lunch aosp_whyred-user
 }
 
@@ -110,9 +107,9 @@ ccache -z
 
 # Build commands for each roms on basis of rom flag in .yml / an additional full build.log is kept.
 case "${rom}" in
- "HyconOS") mka bacon -j$(nproc --all) 2>&1 | tee build.log
+ "HyconOS") mka bacon -j18 2>&1 | tee build.log
     ;;
- "CorvusOS") make corvus 2>&1 | tee build.log
+ "CorvusOS") make corvus -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
