@@ -39,6 +39,13 @@ rom_two(){
      . build/envsetup.sh && lunch corvus_whyred-user
 }
 
+rom_three(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/HyconOS/manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
+	 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+	 git clone https://github.com/TheSanty/android_device_xiaomi_whyred.git device/xiaomi/whyred
+     . build/envsetup.sh && lunch aosp_whyred-eng
+}
+
 
 # setup TG message and build posts
 telegram_message() {
@@ -71,6 +78,8 @@ case "${rom}" in
  "HyconOS") rom_one
     ;;
  "CorvusOS") rom_two
+    ;;
+ "Hycon") rom_three
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -110,6 +119,8 @@ case "${rom}" in
  "HyconOS") mka bacon -j18 2>&1 | tee build.log
     ;;
  "CorvusOS") make corvus -j18 2>&1 | tee build.log
+    ;;
+ "Hycon") mka bacon -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
