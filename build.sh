@@ -46,6 +46,12 @@ rom_three(){
      . build/envsetup.sh && lunch aosp_whyred-eng
 }
 
+rom_four(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/Evolution-X/manifest -b elle -g default,-device,-mips,-darwin,-notdefault
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     . build/envsetup.sh && lunch evolution_whyred-user
+}
 
 # setup TG message and build posts
 telegram_message() {
@@ -80,6 +86,8 @@ case "${rom}" in
  "CorvusOS") rom_two
     ;;
  "Hycon") rom_three
+    ;;
+ "EvolutionOS") rom_four
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -121,6 +129,8 @@ case "${rom}" in
  "CorvusOS") make corvus -j18 2>&1 | tee build.log
     ;;
  "Hycon") mka bacon -j18 2>&1 | tee build.log
+    ;;
+ "EvolutionOS") mka evolution -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
