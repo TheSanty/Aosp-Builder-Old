@@ -53,6 +53,13 @@ rom_four(){
      . build/envsetup.sh && lunch evolution_whyred-user
 }
 
+rom_five(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/KangOS-Snowcone/android_manifest -b snowcone -g default,-device,-mips,-darwin,-notdefault
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     . build/envsetup.sh && lunch fluid_whyred-eng
+}
+
 # setup TG message and build posts
 telegram_message() {
 	curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
@@ -88,6 +95,8 @@ case "${rom}" in
  "Hycon") rom_three
     ;;
  "EvolutionOS") rom_four
+    ;;
+ "KangOS") rom_five
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -131,6 +140,8 @@ case "${rom}" in
  "Hycon") mka bacon -j18 2>&1 | tee build.log
     ;;
  "EvolutionOS") mka evolution -j18 2>&1 | tee build.log
+    ;;
+ "KangOS") make bacon -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
