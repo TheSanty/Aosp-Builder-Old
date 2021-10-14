@@ -22,7 +22,6 @@ sleep_on_error()
 	zst_tar ccache
  else
 	zst_tar ccache
-	sleep 2h
  fi
 }
 
