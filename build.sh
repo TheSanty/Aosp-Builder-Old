@@ -35,7 +35,6 @@ rom_one(){
 rom_two(){
      repo init --depth=1 --no-repo-verify -u https://github.com/Corvus-R/android_manifest.git -b 11 -g default,-device,-mips,-darwin,-notdefault
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-     export RAVEN_LAIR=Official
      . build/envsetup.sh && lunch corvus_whyred-user
 }
 
