@@ -59,6 +59,13 @@ rom_five(){
      . build/envsetup.sh && lunch fluid_whyred-eng
 }
 
+rom_six(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/ArrowOS/android_manifest.git -b arrow-12.0 -g default,-device,-mips,-darwin,-notdefault
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     . build/envsetup.sh && lunch arrow_whyred-eng
+}
+
 # setup TG message and build posts
 telegram_message() {
 	curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
@@ -96,6 +103,8 @@ case "${rom}" in
  "EvolutionOS") rom_four
     ;;
  "KangOS") rom_five
+    ;;
+ "ArrowOS") rom_six
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -141,6 +150,8 @@ case "${rom}" in
  "EvolutionOS") mka evolution -j18 2>&1 | tee build.log
     ;;
  "KangOS") make bacon -j18 2>&1 | tee build.log
+    ;;
+ "ArrowOS") m bacon -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
