@@ -66,6 +66,14 @@ rom_six(){
      . build/envsetup.sh && lunch arrow_whyred-eng
 }
 
+rom_seven(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/PotatoProject/manifest -b frico-release -g default,-device,-mips,-darwin,-notdefault
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     export ALLOW_MISSING_DEPENDENCIES=true
+     source build/envsetup.sh && lunch potato_whyred-userdebug
+}
+
 # setup TG message and build posts
 telegram_message() {
 	curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
@@ -105,6 +113,8 @@ case "${rom}" in
  "KangOS") rom_five
     ;;
  "ArrowOS") rom_six
+    ;;
+ "POSP") rom_seven
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -152,6 +162,8 @@ case "${rom}" in
  "KangOS") make bacon -j18 2>&1 | tee build.log
     ;;
  "ArrowOS") m bacon -j18 2>&1 | tee build.log
+    ;;
+ "POSP") m -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
