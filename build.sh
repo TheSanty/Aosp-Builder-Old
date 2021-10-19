@@ -87,6 +87,8 @@ rom_eight(){
      git fetch https://github.com/TheSanty/external_boringssl.git
      git cherry-pick 4dc79a5b5fd058e3fe1cab50e8a002da088dc44d
      cd ../..
+     rm -rf external/protobuf
+     git clone https://github.com/LineageOS/android_external_protobuf.git
      source build/envsetup.sh && lunch aosp_whyred-userdebug
 }
 
