@@ -79,6 +79,10 @@ rom_eight(){
      repo init --depth=1 --no-repo-verify -u https://github.com/PixelExperience-Staging/manifest -b twelve -g default,-device,-mips,-darwin,-notdefault
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     cd external/e2fsprogs
+     git fetch https://github.com/TheSanty/external_e2fsprogs.git
+     git cherry-pick cb030e2ff00da7752abbf306135b2761569e726b
+     cd ../..
      source build/envsetup.sh && lunch aosp_whyred-userdebug
 }
 
