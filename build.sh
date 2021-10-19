@@ -83,6 +83,10 @@ rom_eight(){
      git fetch https://github.com/TheSanty/external_e2fsprogs.git
      git cherry-pick cb030e2ff00da7752abbf306135b2761569e726b
      cd ../..
+     cd external/boringssl
+     git fetch https://github.com/TheSanty/external_boringssl.git
+     git cherry-pick 4dc79a5b5fd058e3fe1cab50e8a002da088dc44d
+     cd ../..
      source build/envsetup.sh && lunch aosp_whyred-userdebug
 }
 
