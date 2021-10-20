@@ -79,6 +79,10 @@ rom_eight(){
      repo init -u https://github.com/PixelExperience-Staging/manifest -b twelve
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+     cd build/soong
+     git fetch https://github.com/ProtonAOSP/android_build_soong.git
+     git cherry-pick 776cdd157c1469a03db5f1620fa30c92ff57b01b
+     cd ../..
      . build/envsetup.sh && lunch aosp_whyred-userdebug
 }
 
