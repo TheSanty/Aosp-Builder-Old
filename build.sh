@@ -76,7 +76,7 @@ rom_seven(){
 }
 
 rom_eight(){
-     repo init -u https://github.com/PixelExperience-Staging/manifest -b twelve
+     repo init --depth=1 -u https://github.com/PixelExperience-Staging/manifest -b twelve
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
      cd build/soong
