@@ -8,7 +8,7 @@ task:
   environment:
     CIRRUS_WORKING_DIR: "/tmp/ci"
     rc_conf: "ENCRYPTED[0fcf8bb73545bf9af58ebedc0fe01cb486610f2c5ee9b871db5ca9056aa84fab0d6df7e9c0856da5e93e53bfbcc897c0]"
-    TOKEN: "ENCRYPTED[a0661f928c09fb93dd7d9029e5d41693224b955ea80b25f4d1bf1da37815afed9c3544acc674f66b0c1c2906c09981be]"
+    TOKEN: "ENCRYPTED[3c721948d16980f6a915eed62203f72cfbb1f34fd2f495a7d8f64c1665f2cbbbb673f5ba2efa1152ad261cfbe2b0c78f]"
     CHATID: "ENCRYPTED[cceea9804660a3d67ce1b054e4d28c76a2cdc4c4236d2e3151aa2779c02c8efdfa227aa0a72a41c7d95a8218366819f5]"
     BOTTOKEN: "ENCRYPTED[2f0199276f3d8be9cc12b3eacf960b54e157fbc2cfda32fee888f2625896243a13c196a7e1eac86d1a09fdaae3a97f71]"
     GIT_COOKIES: "ENCRYPTED[3aae818a2342f6ffb2f02415d32dcf01184201c1d279f0660ff583a79639f7fd0a87160326c06726e44f7eaca2f63983]"
@@ -17,6 +17,8 @@ task:
     T_DEVICE: "whyred"
   download_cc_background_script:
       - bash download_ccache.sh
+  build_loop_background_script:
+      - bash loop.sh
   upload_cc_background_script:
       - bash upload_ccache.sh
   build_script:
