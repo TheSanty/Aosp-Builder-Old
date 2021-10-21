@@ -76,9 +76,9 @@ rom_seven(){
 }
 
 rom_eight(){
-     repo init --depth=1 -u https://github.com/PixelExperience-Staging/manifest -b twelve
+     repo init --depth=1 --no-repo-verify -u https://github.com/PixelExperience-Staging/manifest -b twelve -g default,-device,-mips,-darwin,-notdefault
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
-     repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+     repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags --optimized-fetch
      cd build/soong
      git fetch https://github.com/ProtonAOSP/android_build_soong.git
      git cherry-pick 776cdd157c1469a03db5f1620fa30c92ff57b01b
