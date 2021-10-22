@@ -78,6 +78,14 @@ rom_eight(){
      . build/envsetup.sh && lunch aosp_whyred-userdebug
 }
 
+rom_nine(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/Project-Awaken/android_manifest -b 12 
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
+     source build/envsetup.sh && lunch awaken_whyred-userdebug
+}
+
+
 # setup TG message and build posts
 telegram_message() {
 	curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
@@ -121,6 +129,8 @@ case "${rom}" in
  "POSP") rom_seven
     ;;
  "PE") rom_eight
+    ;;
+ "AwakenOS") rom_nine
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -172,6 +182,8 @@ case "${rom}" in
  "POSP") m -j18 2>&1 | tee build.log
     ;;
  "PE") mka bacon -j18 2>&1 | tee build.log
+    ;;
+ "AwakenOS") make bacon -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
