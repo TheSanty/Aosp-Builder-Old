@@ -82,6 +82,9 @@ rom_nine(){
      repo init --depth=1 --no-repo-verify -u https://github.com/Project-Awaken/android_manifest -b 12 
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
+     git clone https://github.com/PixelExperience-Staging/hardware_qcom-caf_msm8998_audio.git hardware/qcom-caf/msm8998/audio
+     git clone https://github.com/PixelExperience-Staging/hardware_qcom-caf_msm8998_display.git hardware/qcom-caf/msm8998/display
+     git clone https://github.com/PixelExperience-Staging/hardware_qcom-caf_msm8998_media.git hardware/qcom-caf/msm8998/media
      source build/envsetup.sh && lunch awaken_whyred-userdebug
 }
 
