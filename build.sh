@@ -26,6 +26,7 @@ rom_one(){
 
 rom_two(){
      repo init --depth=1 --no-repo-verify -u https://github.com/Corvus-R/android_manifest.git -b 11 -g default,-device,-mips,-darwin,-notdefault
+	 git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
      . build/envsetup.sh && lunch corvus_whyred-user
 }
