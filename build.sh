@@ -89,6 +89,12 @@ rom_nine(){
      source build/envsetup.sh && lunch awaken_whyred-userdebug
 }
 
+rom_ten(){
+     repo init --depth=1 --no-repo-verify -u https://github.com/Evolution-X/manifest.git -b snow
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle --prune -j$(nproc --all)
+     source build/envsetup.sh && lunch evolution_whyred-eng
+}
 
 # setup TG message and build posts
 telegram_message() {
@@ -135,6 +141,8 @@ case "${rom}" in
  "PE") rom_eight
     ;;
  "AwakenOS") rom_nine
+    ;;
+ "Evo12") rom_ten
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -188,6 +196,8 @@ case "${rom}" in
  "PE") mka bacon -j18 2>&1 | tee build.log
     ;;
  "AwakenOS") make bacon -j18 2>&1 | tee build.log
+    ;;
+ "Evo12") mka evolution -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
