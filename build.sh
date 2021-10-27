@@ -20,21 +20,21 @@ bash ~/git_cookies.sh
 rom_one(){
      repo init --depth=1 --no-repo-verify -u https://github.com/HyconOS/manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
      git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
-	 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
      . build/envsetup.sh && lunch aosp_whyred-user
 }
 
 rom_two(){
      repo init --depth=1 --no-repo-verify -u https://github.com/Corvus-R/android_manifest.git -b 11 -g default,-device,-mips,-darwin,-notdefault
-	 git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
+     git clone https://github.com/TheSanty/local_manifests.git -b $rom .repo/local_manifests
      repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
      . build/envsetup.sh && lunch corvus_whyred-user
 }
 
 rom_three(){
      repo init --depth=1 --no-repo-verify -u https://github.com/HyconOS/manifest -b eleven -g default,-device,-mips,-darwin,-notdefault
-	 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
-	 git clone https://github.com/TheSanty/android_device_xiaomi_whyred.git device/xiaomi/whyred
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     git clone https://github.com/TheSanty/android_device_xiaomi_whyred.git device/xiaomi/whyred
      . build/envsetup.sh && lunch aosp_whyred-eng
 }
 
@@ -96,6 +96,14 @@ rom_ten(){
      source build/envsetup.sh && lunch evolution_whyred-eng
 }
 
+rom_eleven(){
+     repo init --depth=1 --no-repo-verify -u git://github.com/LineageOS/android.git -b lineage-18.1 -g default,-device,-mips,-darwin,-notdefault
+     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --force-sync -j$(nproc --all)
+     git clone https://${TOKEN}@github.com/TheSanty/android_device_realme_RMX3031.git device/realme/RMX3031 
+     git clone https://${TOKEN}@github.com/TheSanty/android_vendor_realme_RMX3031.git vendor/realme/RMX3031
+     . build/envsetup.sh && lunch lineage_RMX3031-userdebug
+}
+
 # setup TG message and build posts
 telegram_message() {
 	curl -s -X POST "https://api.telegram.org/bot${BOTTOKEN}/sendMessage" -d chat_id="${CHATID}" \
@@ -143,6 +151,8 @@ case "${rom}" in
  "AwakenOS") rom_nine
     ;;
  "Evo12") rom_ten
+    ;;
+ "LineageOS") rom_eleven
     ;;
  *) echo "Invalid option!"
     exit 1
@@ -198,6 +208,8 @@ case "${rom}" in
  "AwakenOS") make bacon -j18 2>&1 | tee build.log
     ;;
  "Evo12") mka evolution -j18 2>&1 | tee build.log
+    ;;
+ "LineageOS") mka bacon -j18 2>&1 | tee build.log
     ;;
  *) echo "Invalid option!"
     exit 1
