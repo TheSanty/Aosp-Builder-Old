@@ -228,6 +228,10 @@ ZIPNAME=$(basename ${ZIP})
 ZIPSIZE=$(du -sh ${ZIP} |  awk '{print $1}')
 echo "${ZIP}"
 
+case "${rom}" in
+ "LineageOS") RECOVERY=$(find $(pwd)/out/target/product/${T_DEVICE}/recovery.img) && RECOVERYNAME=$(basename ${RECOVERY}) && echo "${RECOVERY}"
+    ;;
+esac
 
 # Post Build finished with Time,duration,md5,size&Tdrive link OR post build_error&trimmed build.log in TG
 telegram_post(){
@@ -258,6 +262,13 @@ telegram_post(){
 	Build Log: ${TRANSFER}
 
 	_Date:  $(date +"%d-%m-%Y %T")_" &> /dev/null
+ fi
+ if [ -f $(pwd)/out/target/product/${T_DEVICE}/${RECOVERYNAME} ]; then
+        rclone copy ${RECOVERY} brrbrr:rom -P
+	RDWD=${TDRIVE}${ZIPNAME}
+	telegram_message "
+	*ROM:* \`${RECOVERYNAME}\`
+	*Download Link:* [Tdrive](${RDWD})" &> /dev/null
  fi
 }
 
