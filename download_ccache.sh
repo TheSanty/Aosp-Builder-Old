@@ -18,7 +18,7 @@ ccache_download
 
 # ccache configuration settings
 cat > /tmp/ccache/ccache.conf <<EOF
-max_size = 100.0G
+max_size = 50.0G
 compression = true
 compression_level = 1
 limit_multiple = 0.9
