@@ -265,9 +265,9 @@ telegram_post(){
  fi
  if [ -f $(pwd)/out/target/product/${T_DEVICE}/${RECOVERYNAME} ]; then
         rclone copy ${RECOVERY} brrbrr:rom -P
-	RDWD=${TDRIVE}${ZIPNAME}
+	RDWD=${TDRIVE}${RECOVERYNAME}
 	telegram_message "
-	*ROM:* \`${RECOVERYNAME}\`
+	*LINEAGE RECOVERY:* \`${RECOVERYNAME}\`
 	*Download Link:* [Tdrive](${RDWD})" &> /dev/null
  fi
 }
