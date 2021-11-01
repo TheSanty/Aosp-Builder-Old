@@ -8,7 +8,7 @@ telegram_message() {
 	-d text="$1"
 }
 
-if [ -f $(pwd)/rom/out/target/product/${T_DEVICE}/${ZIPNAME} ]; then
+if [ -f $(pwd)/out/target/product/${T_DEVICE}/${ZIPNAME} ]; then
        telegram_message "
               	*✅ Build Finished No Loop Required ✅*"  &> /dev/null
 else
